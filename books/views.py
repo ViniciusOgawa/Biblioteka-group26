@@ -5,16 +5,18 @@ from .permissions import IsLybrarian
 from .models import Book
 from .serializers import BookSerializer
 
+
 class BookView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsLybrarian]
-    
+
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    
+
     def perform_create(self, serializer: Book):
         return serializer.save()
-    
+
+
 class BookDetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
