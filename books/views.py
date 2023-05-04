@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from .permissions import IsLybrarian
 from .models import Book
 from .serializers import BookSerializer
 
 class BookView(generics.ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsLybrarian]
+    
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     
