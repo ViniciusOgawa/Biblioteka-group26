@@ -48,7 +48,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-MY_APPS = ["users", "books", "book_copy", "following"]
+MY_APPS = ["users", "books", "book_copy"]
 
 THIRD_PARTY_APPS = ["rest_framework"]
 
