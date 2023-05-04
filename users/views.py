@@ -1,25 +1,25 @@
-from rest_framework.views import APIView, Response, Request, status
-from users.models import User
-from users.serializers import UserSerializer
-from django.shortcuts import get_object_or_404
+from rest_framework.views import APIView, Request, Response, status
+
+from .models import User
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticated
+from .serializers import UserSerializer
+from .permissions import IsUserColaboratorOrReadOnly
+from rest_framework import generics
 
 
-class UserView(APIView):
-    def post(self, request: Request) -> Response:
-        serializer = UserSerializer(data=request.data)
+class UserView(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
 
-        if not serializer.is_valid():
-            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsUserColaboratorOrReadOnly]
 
-        serializer.save()
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    url_params_name = "pk"
 
-        return Response(serializer.data, status.HTTP_201_CREATED)
 
-    def get(self, request: Request) -> Response:
-        users = User.objects.all()
 
-        serializer = UserSerializer(users, many=True)
 
-        return Response(serializer.data, status.HTTP_200_OK)
