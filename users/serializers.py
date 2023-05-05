@@ -6,8 +6,9 @@ from users.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username", "email", "password", "is_superuser", "is_librarian"]
+        fields = ["id", "username", "email", "password", "is_superuser", "is_librarian", "is_blocked"]
         extra_kwargs = {
+            "is_blocked": {"read_only": True},
             "is_superuser": {"read_only": True},
             "password": {"write_only": True},
             "email": {"validators": [UniqueValidator(queryset=User.objects.all())]},
