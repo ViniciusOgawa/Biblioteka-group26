@@ -20,5 +20,5 @@ class Loan(models.Model):
     return_date = models.DateField(
         null=False,
         auto_now_add=True,
-        auto_now=True,
+           
     )
