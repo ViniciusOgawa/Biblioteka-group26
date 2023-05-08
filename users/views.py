@@ -24,7 +24,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     url_params_name = "pk"
 
 
-class UserFollowView(APIView):
+class UserFollowDetailView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -44,3 +44,22 @@ class UserFollowView(APIView):
             {"mensagem": f"You are following the book {book_obj.name}."},
             status=status.HTTP_200_OK,
         )
+
+
+class UserFollowView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        followed_books = request.user.books_following.all()
+
+        books_data = []
+        for book in followed_books:
+            book_data = {
+                "id": book.id,
+                "name": book.name,
+                "author": book.author,
+            }
+            books_data.append(book_data)
+
+        return Response({"followed_books": books_data}, status=status.HTTP_200_OK)
