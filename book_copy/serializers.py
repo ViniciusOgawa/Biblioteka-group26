@@ -1,13 +1,11 @@
 from rest_framework import serializers
 from .models import Copy
+from books.serializers import BookSerializer
 
 
 class CopySerializer(serializers.ModelSerializer):
-    book_id = serializers.IntegerField(read_only=True, source="book.id")
-
+    book = BookSerializer(required=False)
+    
     class Meta:
         model = Copy
-        fields = ["id", "name", "author", "book_id"]
-
-    def create(self, validated_data):
-        return Copy.objects.create(**validated_data)
+        fields = ["id", "book"]
