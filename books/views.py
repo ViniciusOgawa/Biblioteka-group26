@@ -21,3 +21,15 @@ class BookDetailView(generics.RetrieveAPIView):
     serializer_class = BookSerializer
 
     lookup_url_kwarg = "book_id"
+
+
+
+
+
+
+
+
+
+
+
+
