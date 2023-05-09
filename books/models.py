@@ -6,3 +6,4 @@ class Book(models.Model):
     author = models.CharField(max_length=50, default=None)
 
     users = models.ManyToManyField("users.User", related_name="books_following")
+ 

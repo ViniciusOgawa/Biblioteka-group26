@@ -8,4 +8,5 @@ class BookSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "author"
-        ] 
+        ]
+        
