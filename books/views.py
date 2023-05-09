@@ -5,6 +5,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from users.permissions import IsUserColaboratorOrReadOnly
 from .permissions import IsLybrarian
 from .models import Book
+from book_copy.models import Copy
 from .serializers import BookSerializer
 
 
