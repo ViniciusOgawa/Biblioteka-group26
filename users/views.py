@@ -45,6 +45,17 @@ class UserFollowDetailView(APIView):
             status=status.HTTP_200_OK,
         )
 
+    def delete(self, request, pk):
+        book_obj = get_object_or_404(Book, id=pk)
+
+        request.user.books_following.remove(book_obj)
+        book_obj.followers.remove(request.user)
+
+        return Response(
+            {"message": f"You have unfollowed the book {book_obj.name}."},
+            status=status.HTTP_200_OK,
+        )
+
 
 class UserFollowView(APIView):
     authentication_classes = [JWTAuthentication]
