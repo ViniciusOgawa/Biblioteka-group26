@@ -8,7 +8,6 @@ from books.models import Book
 from django.shortcuts import get_object_or_404
 from books.permissions import IsLybrarian
 
-
 class CopyView(ListCreateAPIView):
     serializer_class = CopySerializer
     pagination_class = PageNumberPagination
