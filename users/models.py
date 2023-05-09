@@ -7,7 +7,7 @@ class User(AbstractUser):
     is_blocked = models.BooleanField(default=False)
 
     copies = models.ManyToManyField("book_copy.Copy", related_name="Loan")
-    books = models.ManyToManyField("books.Book", related_name="readers")
+    books = models.ManyToManyField("books.Book", related_name="followers")
 
     def __str__(self):
         return self.email

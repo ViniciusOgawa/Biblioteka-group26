@@ -74,5 +74,3 @@ class UserFollowView(APIView):
             books_data.append(book_data)
 
         return Response({"followed_books": books_data}, status=status.HTTP_200_OK)
-
-        return Response({"followed_books": books_data}, status=status.HTTP_200_OK)
