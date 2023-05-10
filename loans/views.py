@@ -16,6 +16,7 @@ from loans.permissions import IsUserColaboratorOrReadOnly
 class LoanView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsUserColaboratorOrReadOnly]
+    serializer_class = None
 
     def post(self, request, user_id, book_id):
         user_obj = get_object_or_404(User, id=user_id)
@@ -42,6 +43,7 @@ class LoanView(APIView):
 class LoanHistoryView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsUserColaboratorOrReadOnly]
+    serializer_class = None
 
     def get(self, request):
         loans = Loan.objects.filter(user=request.user.id)
@@ -52,6 +54,7 @@ class LoanHistoryView(APIView):
 class LoanDetailView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsUserColaboratorOrReadOnly]
+    serializer_class = None
 
     def put(self, request, loan_id):
         loan = get_object_or_404(Loan, id=loan_id)

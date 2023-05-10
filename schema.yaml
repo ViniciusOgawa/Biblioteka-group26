@@ -127,6 +127,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/Copy'
           description: ''
+  /api/loans/{loan_id}/receive/:
+    put:
+      operationId: api_loans_receive_update
+      parameters:
+      - in: path
+        name: loan_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/loans/{user_id}/{book_id}/:
+    post:
+      operationId: api_loans_create
+      parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: user_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/loans/history/:
+    get:
+      operationId: api_loans_history_retrieve
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
   /api/schema/:
     get:
       operationId: api_schema_retrieve
@@ -514,6 +561,8 @@ components:
           readOnly: true
         book:
           $ref: '#/components/schemas/Book'
+        is_rented:
+          type: boolean
       required:
       - id
     PaginatedBookList:
