@@ -10,3 +10,5 @@ class Copy(models.Model):
         on_delete=models.CASCADE,
         related_name="copys",
     )
+
+    is_rented = models.BooleanField(default=False)

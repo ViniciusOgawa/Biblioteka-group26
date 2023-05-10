@@ -30,7 +30,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 class UserFollowDetailView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    serializer_class = None   
+    serializer_class = None
 
     def post(self, request, pk):
         book_obj = get_object_or_404(Book, id=pk)
@@ -67,7 +67,6 @@ class UserFollowView(APIView):
     serializer_class = BookSerializer
 
     def get(self, request):
-        
         followed_books = request.user.books_following.all()
 
         books_data = []
@@ -80,4 +79,3 @@ class UserFollowView(APIView):
             books_data.append(book_data)
 
         return Response({"followed_books": books_data}, status=status.HTTP_200_OK)
-    
