@@ -10,9 +10,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from loans.serializers import LoanSerializer
 from users.models import User
+from loans.permissions import IsUserColaboratorOrReadOnly
 
 
 class LoanView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsUserColaboratorOrReadOnly]
+
     def post(self, request, user_id, book_id):
         user_obj = get_object_or_404(User, id=user_id)
         book_copy_obj = get_object_or_404(Copy, id=book_id)
@@ -36,13 +40,19 @@ class LoanView(APIView):
 
 
 class LoanHistoryView(APIView):
-    def get(self, request, user_id):
-        loans = Loan.objects.filter(user=user_id)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsUserColaboratorOrReadOnly]
+
+    def get(self, request):
+        loans = Loan.objects.filter(user=request.user.id)
         serializer = LoanSerializer(loans, many=True)
         return Response(serializer.data)
 
 
 class LoanDetailView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsUserColaboratorOrReadOnly]
+
     def put(self, request, loan_id):
         loan = get_object_or_404(Loan, id=loan_id)
 
