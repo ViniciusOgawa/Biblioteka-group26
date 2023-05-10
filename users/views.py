@@ -1,5 +1,7 @@
 from rest_framework.views import APIView, Request, Response, status
+
 from books.serializers import BookSerializer
+
 from .models import User
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import UserSerializer
@@ -8,6 +10,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from books.models import Book
 from django.shortcuts import get_object_or_404
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin
 
 
 class UserView(generics.ListCreateAPIView):
@@ -27,6 +30,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 class UserFollowDetailView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+    serializer_class = None
 
     def post(self, request, pk):
         book_obj = get_object_or_404(Book, id=pk)
