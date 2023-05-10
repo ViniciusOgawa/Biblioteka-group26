@@ -8,5 +8,3 @@ class IsLybrarian(permissions.BasePermission):
         if request.user.is_authenticated and request.user.is_librarian == True:
             return True
         return False
-    
-    

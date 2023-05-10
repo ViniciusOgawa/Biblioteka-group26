@@ -17,8 +17,8 @@ class Loan(models.Model):
         related_name="copys",
     )
 
-    return_date = models.DateField(
-        null=False,
-        auto_now_add=True,
-           
-    )
+    returned = models.BooleanField(default=False)
+
+    loan_date = models.DateField(auto_now_add=True)
+
+    return_date = models.DateField(null=True, blank=True)

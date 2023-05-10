@@ -1,5 +1,7 @@
 from rest_framework.views import APIView, Request, Response, status
 
+from books.serializers import BookSerializer
+
 from .models import User
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import UserSerializer
@@ -8,6 +10,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from books.models import Book
 from django.shortcuts import get_object_or_404
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, DestroyModelMixin
 
 
 class UserView(generics.ListCreateAPIView):
@@ -27,6 +30,7 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 class UserFollowDetailView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+    serializer_class = None
 
     def post(self, request, pk):
         book_obj = get_object_or_404(Book, id=pk)
@@ -45,10 +49,22 @@ class UserFollowDetailView(APIView):
             status=status.HTTP_200_OK,
         )
 
+    def delete(self, request, pk):
+        book_obj = get_object_or_404(Book, id=pk)
+
+        request.user.books_following.remove(book_obj)
+        book_obj.followers.remove(request.user)
+
+        return Response(
+            {"message": f"You have unfollowed the book {book_obj.name}."},
+            status=status.HTTP_200_OK,
+        )
+
 
 class UserFollowView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+    serializer_class = BookSerializer
 
     def get(self, request):
         followed_books = request.user.books_following.all()
