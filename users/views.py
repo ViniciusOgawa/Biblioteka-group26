@@ -1,5 +1,5 @@
 from rest_framework.views import APIView, Request, Response, status
-
+from books.serializers import BookSerializer
 from .models import User
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .serializers import UserSerializer
@@ -60,6 +60,7 @@ class UserFollowDetailView(APIView):
 class UserFollowView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+    serializer_class = BookSerializer
 
     def get(self, request):
         followed_books = request.user.books_following.all()
